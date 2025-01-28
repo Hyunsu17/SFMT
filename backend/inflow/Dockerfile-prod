@@ -1,0 +1,11 @@
+# 빌드 스테이지
+FROM eclipse-temurin:17-jdk-focal as builder
+WORKDIR /build
+COPY . .
+RUN ./mvnw package -DskipTests
+
+# 실행 스테이지
+FROM eclipse-temurin:17-jre-focal
+WORKDIR /app
+COPY --from=builder /build/target/*.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]

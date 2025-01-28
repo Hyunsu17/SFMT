@@ -1,0 +1,23 @@
+FROM eclipse-temurin:17-jdk-focal
+
+WORKDIR /app
+
+# Maven Wrapper와 필요한 파일들 복사
+COPY .mvn/ .mvn
+COPY mvnw .
+COPY pom.xml .
+
+# 의존성 해결 (JAR 파일을 생성하지 않더라도 빌드 필수)
+RUN ./mvnw dependency:resolve
+
+# 소스 코드 복사
+COPY src ./src
+
+# Maven 빌드 (JAR 파일 생성)
+RUN ./mvnw clean package -DskipTests
+
+# 디버깅을 위한 설정
+ENV JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5006"
+
+# JAR 파일 실행
+CMD ["java", "-jar", "target/inflow-0.0.1-SNAPSHOT.jar"]

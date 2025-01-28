@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: Inflow
+  devtools:
+    restart:
+      enabled: false
