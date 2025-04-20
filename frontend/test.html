@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram OAuth Login</title>
+</head>
+<body>
+  <h1>Login with Instagram</h1>
+  <button id="instagram-login">Login via Instagram</button>
+
+  <script>
+    const clientId = '1201431461476728'; // 예: 123456789012345
+    const redirectUri = 'https://995a-125-176-187-164.ngrok-free.app/api/auth/instagram/callback';
+    const scope = [
+      'instagram_business_basic',
+      'instagram_business_manage_messages',
+      'instagram_business_manage_comments',
+      'instagram_business_content_publish',
+      'instagram_business_manage_insights'
+    ].join(',');
+
+    const responseType = 'code';
+
+    document.getElementById('instagram-login').addEventListener('click', () => {
+      const authUrl = `https://www.instagram.com/oauth/authorize` +
+                      `?enable_fb_login=0` +
+                      `&force_authentication=1` +
+                      `&client_id=${clientId}` +
+                      `&redirect_uri=${encodeURIComponent(redirectUri)}` +
+                      `&response_type=${responseType}` +
+                      `&scope=${encodeURIComponent(scope)}`;
+
+      console.log('Redirecting to:', authUrl);
+      window.location.href = authUrl;
+    });
+
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{your-app-id}',
+      cookie     : true,
+      xfbml      : true,
+      version    : '{api-version}'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+</body>
+</html>
+
