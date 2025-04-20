@@ -104,10 +104,12 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.30</version>
 						</path>
 						<path>
 							<groupId>org.springframework.boot</groupId>
 							<artifactId>spring-boot-configuration-processor</artifactId>
+							<version>3.3.7</version> <!-- Spring Boot 버전과 맞추기 -->
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
