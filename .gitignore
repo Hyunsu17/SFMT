@@ -36,6 +36,7 @@ build/
 ### 백엔드 관련 설정 ###
 /backend/inflow/target/
 /backend/inflow/build/
+/backend/inflow/src/main/resources/*.yml
 
 ### 프론트엔드 관련 설정 ###
 # /frontend/node_modules/
