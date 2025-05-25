@@ -29,4 +29,15 @@ public class InstagramApiController {
 
         return ResponseEntity.ok(profile);
     }
+
+    @Operation(summary = "특정기간동안의 팔로워수 가져오기", description = "엑세스 토큰을 통해 사용자의 프로필 정보를 가져옵니다")
+    @GetMapping("/follower/")
+    public ResponseEntity<?> getUserFollowerCount(
+            @RequestParam ("period") int period
+
+    ) {
+
+        InstagramProfileResponse profile = instagramApiService.getInstgramProfile();
+        return ResponseEntity.ok(profile);
+    }
 }

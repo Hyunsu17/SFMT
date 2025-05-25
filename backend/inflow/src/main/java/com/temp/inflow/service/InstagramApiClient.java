@@ -38,4 +38,8 @@ public class InstagramApiClient {
             throw new RuntimeException(e);
         }
     }
+
+    public fetchInstagramMainPage(){
+
+    }
 }
