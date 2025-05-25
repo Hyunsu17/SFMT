@@ -1,6 +1,5 @@
 package com.temp.inflow.creator.instagram.client;
 
-import com.temp.inflow.creator.instagram.dto.CreatorInstagramResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,17 +12,6 @@ import java.util.stream.Collectors;
 @Service
 public class CreatorInstagramApiClient {
     private final RestTemplate restTemplate = new RestTemplate();
-
-    public List<Integer> fetchFollowerCounts(String igUserId, String accessToken, LocalDate since, LocalDate until) {
-        String url = String.format(
-                "https://graph.facebook.com/v19.0/%s/insights?metric=follower_count&period=day&since=%s&until=%s&access_token=%s",
-                igUserId, since, until, accessToken
-        );
-        ResponseEntity<CreatorInstagramResponseDto> res = restTemplate.getForEntity(url, CreatorInstagramResponseDto.class);
-        return res.getBody().getData().get(0).getValues().stream()
-                .map(v -> v.getValue())
-                .collect(Collectors.toList());
-    }
 
     public List<String> fetchRecentMediaIds(String igUserId, String accessToken, int limitDays, int maxCount) {
         // Fetch media published since limitDays ago and limit to maxCount

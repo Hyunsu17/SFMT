@@ -1,6 +1,8 @@
 package com.temp.inflow.creator.instagram.service;
 
 import com.temp.inflow.creator.instagram.client.CreatorInstagramApiClient;
+import com.temp.inflow.creator.instagram.dto.CreatorInstagramDto;
+import com.temp.inflow.creator.profile.client.InstagramProfileClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +15,23 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class CreatorInstagramService {
     private final CreatorInstagramApiClient client;
-    public InstagramMetricsDto.PlatformMetrics getInstagramMetrics(Long userId) {
-        UserInstagram account = repo.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Instagram 연동 정보 없음"));
-
-        String igId = account.getIgUserId();
-        String token = account.getAccessToken();
+    private final InstagramProfileClient instagramProfileClient;
+    public CreatorInstagramDto getInstagramMetrics(Long userId) {
+//        UserInstagram account = repo.findByUserId(userId)
+//                .orElseThrow(() -> new RuntimeException("Instagram 연동 정보 없음"));
+//
+//        String igId = account.getIgUserId();
+//        String token = account.getAccessToken();
+//
+        String igId = "id";
+        String token = "token";
 
         LocalDate today = LocalDate.now();
         LocalDate weekAgo = today.minusDays(7);
         LocalDate monthAgo = today.minusDays(30);
 
         // 팔로워 수 리스트 (30일)
-        List<Integer> followers = client.fetchFollowerCounts(igId, token, monthAgo, today);
+        List<Integer> followers = instagramProfileClient.fetchFollowerCounts(igId, token, monthAgo, today);
         int current = followers.get(followers.size() - 1);
         double avg7 = followers.subList(followers.size() - 7, followers.size()).stream().mapToInt(i->i).average().orElse(0);
 
@@ -63,7 +69,7 @@ public class CreatorInstagramService {
         // 성장률
         double growthRate = (current - avg7) / avg7 * 100;
 
-        return new PlatformMetrics(
+        return new CreatorInstagramDto(
                 growthRate, weeklyPostCount,
                 engagementRate, reachRate, commentLikeRatio,
                 likes3, comments3, saves3, shares3,

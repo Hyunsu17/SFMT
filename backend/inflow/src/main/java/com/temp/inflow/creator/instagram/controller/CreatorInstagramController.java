@@ -1,5 +1,6 @@
 package com.temp.inflow.creator.instagram.controller;
 
+import com.temp.inflow.creator.instagram.dto.CreatorInstagramDto;
 import com.temp.inflow.creator.instagram.service.CreatorInstagramService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,8 @@ import org.springframework.security.core.Authentication;
 @Tag(name = "Creator instagram View", description = "id: 1-1-1-4")
 public class CreatorInstagramController {
     private final CreatorInstagramService service;
-    public ResponseEntity<InstagramMetricsDto.PlatformMetrics> getInstagramMetrics(Authentication auth) {
+    public CreatorInstagramDto getInstagramMetrics(Authentication auth) {
         Long userId = Long.parseLong(auth.getName());
-        return ResponseEntity.ok(service.getInstagramMetrics(userId));
+        return service.getInstagramMetrics(userId);
     }
 }
